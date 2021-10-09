@@ -1,0 +1,98 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url("img/geometry-g47d686f0a_1920.jpg");
+}
+
+#container {
+    width: 23rem;
+    padding-top: 6rem;
+    margin: 0 auto;
+}
+
+#frame {
+    display: flex;
+    flex-direction: column;
+    border: 6px solid rgb(47, 47, 53);
+    border-radius: 12px;
+    margin: 0px auto;
+    background-color: dimgray;
+}
+
+#display {
+    width: 19rem;
+    height: 6rem;
+    border: 2px solid black;
+    border-radius: 6px;
+    margin: 2rem auto;
+    background-color: floralwhite;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#first-line {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+}
+
+#second-line {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+}
+
+.sl-text {
+    font-size: 3rem;
+}
+
+.fl-text {
+    font-size: 2rem;
+    margin-bottom: .5rem;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    column-gap: 1rem;
+}
+
+.calc-btn {
+    width: 4rem;
+    height: 4rem;
+    border: 2px solid black;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+}
+
+#keys {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    margin: 0 auto;
+    margin-bottom: 2rem;
+}
+
+.digit {
+    background-color: indianred;
+}
+
+.clear {
+    background-color: maroon;
+}
+
+.bckspace {
+    background-color: mediumseagreen;
+}
+
+.operand {
+    background-color: peru;
+}
