@@ -55,10 +55,7 @@ function btnPressed() {
             btnClicked = div.dataset.value;
             document.getElementById("slt").innerHTML = btnClicked;
             console.log(btnClicked);
-            return(btnClicked);
+            return(currentString);
         })
     })
 }
-
-let x = btnPressed();
-console.log(x);
