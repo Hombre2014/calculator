@@ -71,6 +71,13 @@ body {
     justify-content: center;
     align-items: center;
     font-size: 2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color, 0.3s;
+}
+
+.calc-btn:hover {
+    background-color: rgb(37, 79, 133);
 }
 
 #keys {
@@ -82,11 +89,11 @@ body {
 }
 
 .digit {
-    background-color: indianred;
+    background-color: rgb(218, 139, 49);
 }
 
 .clear {
-    background-color: maroon;
+    background-color: rgb(182, 50, 50);
 }
 
 .bckspace {
@@ -94,5 +101,5 @@ body {
 }
 
 .operand {
-    background-color: peru;
+    background-color: rgb(156, 128, 99);
 }

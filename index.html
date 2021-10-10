@@ -14,83 +14,84 @@
     <main id="container">
         <div id="frame">
             <div id="display">
-                <div id="first-line"><span class="fl-text">111111</span></div>
-                <div id="second-line"><span class="sl-text">000000000000</span></div>
+                <div id="first-line"><span class="fl-text"></span></div>
+                <div id="second-line"><span id="slt" class="sl-text">0</span></div>
             </div>
             <div id="keys">
                 <div class="row">
-                    <div class="calc-btn clear">
+                    <div  data-value="AC" id="AC" class="calc-btn clear">
                         <div class="calc-text">AC</div>
                     </div>
-                    <div class="calc-btn bckspace">
+                    <div  data-value="BKSP" id="BKSP" class="calc-btn bckspace">
                         <div class="calc-text"><i class="fas fa-backspace"></i></div>
                     </div>
-                    <div class="calc-btn operand">
-                        <div class="calc-text">%</div>
+                    <div data-value="EXP"  class="calc-btn operand">
+                        <div class="calc-text">^</div>
                     </div>
-                    <div class="calc-btn operand">
+                    <div data-value="DIV"  class="calc-btn operand">
                         <div class="calc-text">/</div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="calc-btn digit">
+                    <div data-value="7"  class="calc-btn digit">
                         <div class="calc-text">7</div>
                     </div>
-                    <div class="calc-btn digit">
+                    <div data-value="8"  class="calc-btn digit">
                         <div class="calc-text">8</div>
                     </div>
-                    <div class="calc-btn digit">
+                    <div data-value="9"  class="calc-btn digit">
                         <div class="calc-text">9</div>
                     </div>
-                    <div class="calc-btn operand">
+                    <div data-value="MLTP"  class="calc-btn operand">
                         <div class="calc-text">*</div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="calc-btn digit">
+                    <div data-value="4"  class="calc-btn digit">
                         <div class="calc-text">4</div>
                     </div>
-                    <div class="calc-btn digit">
+                    <div data-value="5"  class="calc-btn digit">
                         <div class="calc-text">5</div>
                     </div>
-                    <div class="calc-btn digit">
+                    <div data-value="6"  class="calc-btn digit">
                         <div class="calc-text">6</div>
                     </div>
-                    <div class="calc-btn operand">
+                    <div data-value="SUBS"  class="calc-btn operand">
                         <div class="calc-text">—</div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="calc-btn digit">
+                    <div data-value="1"  class="calc-btn digit">
                         <div class="calc-text">1</div>
                     </div>
-                    <div class="calc-btn digit">
+                    <div data-value="2"  class="calc-btn digit">
                         <div class="calc-text">2</div>
                     </div>
-                    <div class="calc-btn digit">
+                    <div data-value="3"  class="calc-btn digit">
                         <div class="calc-text">3</div>
                     </div>
-                    <div class="calc-btn operand">
+                    <div data-value="ADD"  class="calc-btn operand">
                         <div class="calc-text">+</div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="calc-btn operand">
+                    <div data-value="NEG"  class="calc-btn operand">
                         <div class="calc-text">+/-</div>
                     </div>
-                    <div class="calc-btn digit">
+                    <div data-value="0"  class="calc-btn digit">
                         <div class="calc-text">0</div>
                     </div>
-                    <div class="calc-btn operand">
+                    <div data-value="DEC"  class="calc-btn operand">
                         <div class="calc-text">.</i></div>
                     </div>
-                    <div class="calc-btn operand">
+                    <div data-value="EQL"  class="calc-btn operand">
                         <div class="calc-text">=</div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
+    <script src="main.js"></script>
 </body>
 
 </html>
