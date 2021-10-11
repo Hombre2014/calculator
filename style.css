@@ -5,7 +5,7 @@
 }
 
 body {
-    background-image: url("img/geometry-g47d686f0a_1920.jpg");
+    background-image: url("img/1541162.jpg");
 }
 
 #container {
@@ -49,11 +49,13 @@ body {
 
 .sl-text {
     font-size: 3rem;
+    padding-right: .4rem;
 }
 
 .fl-text {
     font-size: 2rem;
     margin-bottom: .5rem;
+    padding-right: .4rem;
 }
 
 .row {
