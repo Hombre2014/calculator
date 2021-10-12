@@ -83,7 +83,7 @@ function btnPressed() {
                         }
                         else {
                             currentString = document.getElementById("slt").innerHTML = currentString + btnClicked;
-                            decPoint = true;
+                            decPoint = true;    //When the first digit is other than 0 and no DEC is used
                             firstSymbol = true;
                             console.log('Line 84 - currentString is: ', currentString);
                             console.log("firstSymbol is: ", firstSymbol);
@@ -92,7 +92,7 @@ function btnPressed() {
                         }
 
                     }
-                    else {
+                    else {  // Prevent of typing multiple DEC, when there is one already
                         document.getElementById("slt").innerHTML = currentString;
                         console.log('Line 93 - currentString is: ', currentString);
                         console.log("firstSymbol is: ", firstSymbol);
@@ -109,11 +109,10 @@ function btnPressed() {
                 case '8':
                 case '9':
                 case '0':
-                    if (((currentString === '') || (currentString.charAt(0) === '0')) && (btnClicked === '0') && currentString.length <= 1) {
-                        if (btnClicked === '0') { //When empty or only 1 digit and it is 0 and the 0 is pressed
+                    if (((currentString == '') || (currentString.charAt(0) === '0')) && (btnClicked === '0') && currentString.length <= 1) {
+                        if (btnClicked == '0') { //When empty or only 1 digit and it is 0 and the 0 is pressed
                             zeroFirst = 1;
-                            firstSymbol = true;
-                            // document.getElementById("slt").innerHTML = btnClicked;
+                            firstSymbol = true; //When display is 0 and pressing 0 again - do nothing.
                             console.log("zeroFirst is: ", zeroFirst);
                             console.log('Line 115 - currentString is: ', currentString);
                             console.log("currentString length is: ", currentString.length);
@@ -136,7 +135,7 @@ function btnPressed() {
                     }
                     else {
                         if (currentString.length < 12 && (decPoint === false)) {
-                            if ((currentString.charAt(0) == 0) && (currentString.length == 1)) { 
+                            if ((currentString.charAt(0) == 0) && (currentString.length == 1)) {
                                 currentString = document.getElementById("slt").innerHTML = btnClicked;
                                 firstSymbol = true;
                                 zeroFirst = 0;
@@ -190,6 +189,9 @@ function btnPressed() {
                     firstSymbol = false;
                     decPoint = false;
                     zeroFirst = 0;
+                    leftOperand = 0;
+                    rightOperand = 0;
+                    operation = '';
                     break;
                 case 'BKSP':
                     var l = currentString.length;
@@ -197,26 +199,34 @@ function btnPressed() {
                     console.log("currentString length is: ", currentString.length);
                     console.log("curent character at 0: ", currentString.charAt(0));
                     console.log("firstSymbol is: ", firstSymbol);
-                    if (l === 0) {   //If it is the first key to be pressed
+                    if (l === 0) {   //If it is the first key to be pressed - do nothing
                         currentString = '';
                         console.log(l);
                         console.log('Line 162 - currentString is: ', currentString);
                         break;
                     }
-                    else {
-                        if (currentString.charAt(l - 1) === '.') {     //If we delete the DEC symbol, have to reset the var to false
+                    else {  //There is already some numbers entered.
+                        if (currentString.charAt(l - 1) == '.') {     //If we delete the DEC symbol, have to reset the var decPoint to false
                             currentString = currentString.slice(0, (l - 1));
                             document.getElementById("slt").innerHTML = currentString;
                             decPoint = false;
                             l = currentString.length;
+                            if(currentString.charAt(1) == '0' && currentString.charAt(0) == '-') {
+                                decPoint = false; //When there is only '-0' left on display remove it after deleting DEC point and put 0.
+                                currentString = '';
+                                firstSymbol = false;
+                                zeroFirst = 0;
+                                document.getElementById("slt").innerHTML = '0';
+                                break;
+                            }
                             console.log('Line 126 - currentString is: ', currentString);
                             console.log("currentString length is: ", currentString.length);
                             console.log("curent character at 0: ", currentString.charAt(0));
                             console.log("firstSymbol is: ", firstSymbol);
                             break;
                         }
-                        if (currentString.length === 1) {    //When there is only 1 digit left, remove it and put zero
-                            currentString = '';
+                        if ((currentString.length == 1) || (currentString.length == 2 && currentString.charAt(0) == '-')) { 
+                            currentString = ''; //When there is only 1 digit left or 2 symbols and the first is NEG '-' remove it and put zero
                             document.getElementById("slt").innerHTML = 0;
                             firstSymbol = false;
                             decPoint = false;
@@ -228,7 +238,7 @@ function btnPressed() {
                             console.log("firstSymbol is: ", firstSymbol);
                             break;
                         }
-                        if (currentString.charAt(0) === 0 && currentString.length === 1) {
+                        if (currentString.charAt(0) == 0 && currentString.length == 1) {
                             currentString = '';     //when the only digit is first 0 
                             firstSymbol = false;
                             decPoint = false;
@@ -237,9 +247,35 @@ function btnPressed() {
                             console.log('Line 186 - currentString is: ', currentString);
                             break;
                         }
-                        currentString = currentString.slice(0, (l - 1));
+                        currentString = currentString.slice(0, (l - 1));    //normal deletion of a last digit
                         document.getElementById("slt").innerHTML = currentString;
                         l = currentString.length;
+                        console.log('Line 126 - currentString is: ', currentString);
+                        console.log("currentString length is: ", currentString.length);
+                        console.log("curent character at 0: ", currentString.charAt(0));
+                        console.log("firstSymbol is: ", firstSymbol);
+                        break;
+                    }
+                case 'NEG':
+                    if (Number(currentString) > 0) {
+                        currentString = document.getElementById("slt").innerHTML = '-' + currentString;
+                        console.log('Line 126 - currentString is: ', currentString);
+                        console.log("currentString length is: ", currentString.length);
+                        console.log("curent character at 0: ", currentString.charAt(0));
+                        console.log("firstSymbol is: ", firstSymbol);
+                        break;
+                    }
+                    else if (Number(currentString) < 0) {
+                        currentString = currentString.substr(1, currentString.length - 1);
+                        currentString = document.getElementById("slt").innerHTML = currentString;
+                        console.log('Line 126 - currentString is: ', currentString);
+                        console.log("currentString length is: ", currentString.length);
+                        console.log("curent character at 0: ", currentString.charAt(0));
+                        console.log("firstSymbol is: ", firstSymbol);
+                        break;
+                    }
+                    else {
+                        document.getElementById("slt").innerHTML = '0';
                         console.log('Line 126 - currentString is: ', currentString);
                         console.log("currentString length is: ", currentString.length);
                         console.log("curent character at 0: ", currentString.charAt(0));
