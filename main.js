@@ -40,19 +40,19 @@ function precise(x) {
 function operate(operand, a, b) {
     var result = 0;
     switch (operand) {
-        case '+':
+        case 'ADD':
             result = add(a, b);
             break;
-        case '-':
+        case 'SUBS':
             result = substract(a, b);
             break;
-        case '/':
+        case 'DIV':
             result = divide(a, b);
             break;
-        case '*':
+        case 'MLTP':
             result = multiply(a, b);
             break;
-        case '^':
+        case 'EXP':
             result = exponent(a, b);
             break;
     }
@@ -295,7 +295,7 @@ function btnPressed() {
                     if (leftOperand == '') { //If this is the first press of +
                         upperString = document.getElementById("flt").innerHTML = currentString + ' +';
                         leftOperand = Number(currentString);
-                        // operation = 'ADD';
+                        operation = 'ADD';
                         currentString = '';
                         firstSymbol = false;
                         decPoint = false;
@@ -304,7 +304,8 @@ function btnPressed() {
                     }
                     else if ((leftOperand != '') && (rightOperand == '')) { //When there is already left operand
                         rightOperand = Number(currentString);
-                        result = add(leftOperand, rightOperand);
+                        result = operate(operation, leftOperand, rightOperand);
+                        operation = 'ADD';
                         upperString = document.getElementById("flt").innerHTML = result + ' +';
                         leftOperand = result;
                         if (result.toString().length > 12) {
@@ -313,15 +314,40 @@ function btnPressed() {
                         }
                         document.getElementById("slt").innerHTML = result;
                         rightOperand = '';
-                        // operation = 'ADD';
                         currentString = '';
                         firstSymbol = false;
                         decPoint = false;
                         zeroFirst = 0;
                         break;
                     }
-                    else {  //when there are two operands
-
+                case 'SUBS':
+                    if (leftOperand == '') { //If this is the first press of +
+                        upperString = document.getElementById("flt").innerHTML = currentString + ' -';
+                        leftOperand = Number(currentString);
+                        operation = 'SUBS';
+                        currentString = '';
+                        firstSymbol = false;
+                        decPoint = false;
+                        zeroFirst = 0;
+                        break;
+                    }
+                    else if ((leftOperand != '') && (rightOperand == '')) { //When there is already left operand
+                        rightOperand = Number(currentString);
+                        result = operate(operation, leftOperand, rightOperand);
+                        operation = 'SUBS';
+                        upperString = document.getElementById("flt").innerHTML = result + ' -';
+                        leftOperand = result;
+                        if (result.toString().length > 12) {
+                            result = result.toExponential();
+                            result = precise(result.toString());
+                        }
+                        document.getElementById("slt").innerHTML = result;
+                        rightOperand = '';
+                        currentString = '';
+                        firstSymbol = false;
+                        decPoint = false;
+                        zeroFirst = 0;
+                        break;
                     }
                 case 'EQL':
 
