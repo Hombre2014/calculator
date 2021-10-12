@@ -39,6 +39,7 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: right;
+    margin-top: 0.5rem;
 }
 
 #second-line {
@@ -48,13 +49,12 @@ body {
 }
 
 .sl-text {
-    font-size: 3rem;
+    font-size: 2.85rem;
     padding-right: .4rem;
 }
 
 .fl-text {
-    font-size: 2rem;
-    margin-bottom: .5rem;
+    font-size: 1.24rem;
     padding-right: .4rem;
 }
 

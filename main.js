@@ -1,11 +1,13 @@
+const PI = 3.1415926535;
 let currentString = '';
+let upperString = '';
 let firstSymbol = false;
-let leftOperand = 0;
-let rightOperand = 0;
+let leftOperand = '';
+let rightOperand = '';
 let operation = '';
+let result = 0;
 let zeroFirst = 0;
 let decPoint = false;
-
 
 function add(a, b) {
     return (a + b);
@@ -29,6 +31,10 @@ function exponent(a, b) {
         result *= a;
     }
     return result;
+}
+
+function precise(x) {
+    return Number.parseFloat(x).toPrecision(7);
 }
 
 function operate(operand, a, b) {
@@ -113,6 +119,8 @@ function btnPressed() {
                         if (btnClicked == '0') { //When empty or only 1 digit and it is 0 and the 0 is pressed
                             zeroFirst = 1;
                             firstSymbol = true; //When display is 0 and pressing 0 again - do nothing.
+                            currentString = document.getElementById("slt").innerHTML = btnClicked; //! added after adding + operatioin to diplay
+                            //second operand if it starts with 0!
                             console.log("zeroFirst is: ", zeroFirst);
                             console.log('Line 115 - currentString is: ', currentString);
                             console.log("currentString length is: ", currentString.length);
@@ -186,6 +194,7 @@ function btnPressed() {
                 case 'AC':
                     currentString = '';
                     document.getElementById("slt").innerHTML = currentString + 0;
+                    document.getElementById("flt").innerHTML = '';
                     firstSymbol = false;
                     decPoint = false;
                     zeroFirst = 0;
@@ -211,7 +220,7 @@ function btnPressed() {
                             document.getElementById("slt").innerHTML = currentString;
                             decPoint = false;
                             l = currentString.length;
-                            if(currentString.charAt(1) == '0' && currentString.charAt(0) == '-') {
+                            if (currentString.charAt(1) == '0' && currentString.charAt(0) == '-') {
                                 decPoint = false; //When there is only '-0' left on display remove it after deleting DEC point and put 0.
                                 currentString = '';
                                 firstSymbol = false;
@@ -225,7 +234,7 @@ function btnPressed() {
                             console.log("firstSymbol is: ", firstSymbol);
                             break;
                         }
-                        if ((currentString.length == 1) || (currentString.length == 2 && currentString.charAt(0) == '-')) { 
+                        if ((currentString.length == 1) || (currentString.length == 2 && currentString.charAt(0) == '-')) {
                             currentString = ''; //When there is only 1 digit left or 2 symbols and the first is NEG '-' remove it and put zero
                             document.getElementById("slt").innerHTML = 0;
                             firstSymbol = false;
@@ -282,6 +291,40 @@ function btnPressed() {
                         console.log("firstSymbol is: ", firstSymbol);
                         break;
                     }
+                case 'ADD':
+                    if (leftOperand == '') { //If this is the first press of +
+                        upperString = document.getElementById("flt").innerHTML = currentString + ' +';
+                        leftOperand = Number(currentString);
+                        // operation = 'ADD';
+                        currentString = '';
+                        firstSymbol = false;
+                        decPoint = false;
+                        zeroFirst = 0;
+                        break;
+                    }
+                    else if ((leftOperand != '') && (rightOperand == '')) { //When there is already left operand
+                        rightOperand = Number(currentString);
+                        result = add(leftOperand, rightOperand);
+                        upperString = document.getElementById("flt").innerHTML = result + ' +';
+                        leftOperand = result;
+                        if (result.toString().length > 12) {
+                            result = result.toExponential();
+                            result = precise(result.toString());
+                        }
+                        document.getElementById("slt").innerHTML = result;
+                        rightOperand = '';
+                        // operation = 'ADD';
+                        currentString = '';
+                        firstSymbol = false;
+                        decPoint = false;
+                        zeroFirst = 0;
+                        break;
+                    }
+                    else {  //when there are two operands
+
+                    }
+                case 'EQL':
+
             }
             return (btnClicked);
         })
