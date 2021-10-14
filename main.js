@@ -3,60 +3,93 @@ let currentString = '';
 let upperString = '';
 let firstSymbol = false;
 let leftOperand = '';
+let lOpNotEqls0 = true;
 let rightOperand = '';
 let operation = '';
 let result = 0;
 let zeroFirst = 0;
 let decPoint = false;
 
+
+function resetVar() {
+    firstSymbol = false;
+    lOpNotEqls0 = true;
+    decPoint = false;
+    currentString = '';
+    leftOperand = '';
+    rightOperand = '';
+    operation = '';
+    result = 0;
+    zeroFirst = 0;
+}
+
+function clearScreen() {
+    var string = document.getElementById("flt").innerHTML;
+    if (string.charAt(0) == 'Y') {
+        document.getElementById("flt").innerHTML = ''; //To clear the Undefined!
+        currentString = '';
+        document.getElementById("slt").innerHTML = currentString + 0;
+        resetVar();
+    }
+}
+
+function normalize(f, val) {
+    var m = Math.pow(10, val);
+    return parseInt(f * m, 10) / m;
+}
+
 function add(a, b) {
-    return (a + b);
+    return (normalize(a + b, 10));
 }
 
 function substract(a, b) {
-    return (a - b);
+    var res = a - b;
+    if (res == 0) {
+        lOpNotEqls0 = false;
+        return res;
+    }
+    else {
+        return (a - b);
+    }
+    // return (Number((normalize(a - b, 9).toFixed(9)).toString()));
 }
 
 function divide(a, b) {
-    return (a / b);
+    return (normalize(a / b, 6));
 }
 
 function multiply(a, b) {
-    return (a * b);
+    return (normalize(a * b, 6));
 }
 
 function exponent(a, b) {
-    var result = 1;
-    for (var i = 0; i < b; i++) {
-        result *= a;
-    }
-    return result;
+    return (Math.pow(a, b));
 }
 
 function precise(x) {
-    return Number.parseFloat(x).toPrecision(7);
+    return (Number.parseFloat(x).toPrecision(7));
 }
 
 function operate(operand, a, b) {
-    var result = 0;
+    var answer = 0;
     switch (operand) {
         case 'ADD':
-            result = add(a, b);
+            answer = add(a, b);
             break;
         case 'SUBS':
-            result = substract(a, b);
+            answer = substract(a, b);
             break;
         case 'DIV':
-            result = divide(a, b);
+            answer = divide(a, b);
             break;
         case 'MLTP':
-            result = multiply(a, b);
+            answer = multiply(a, b);
             break;
         case 'EXP':
-            result = exponent(a, b);
+            answer = exponent(a, b);
             break;
     }
-    return result;
+    return answer;
 }
 
 function btnPressed() {
@@ -68,6 +101,7 @@ function btnPressed() {
             btnClicked = div.dataset.value;
             switch (btnClicked) {
                 case '.':
+                    clearScreen();
                     if (firstSymbol === false) {    //If the first symbol is DEC
                         currentString = document.getElementById("slt").innerHTML = 0 + btnClicked;
                         firstSymbol = true;
@@ -115,18 +149,19 @@ function btnPressed() {
                 case '8':
                 case '9':
                 case '0':
-                    if (((currentString == '') || (currentString.charAt(0) === '0')) && (btnClicked === '0') && currentString.length <= 1) {
+                    clearScreen();
+                    if (((currentString == '') || (currentString.charAt(0) == '0')) && (btnClicked == '0') && currentString.length <= 1) {
                         if (btnClicked == '0') { //When empty or only 1 digit and it is 0 and the 0 is pressed
                             zeroFirst = 1;
+                            // lOpNotEqls0 = false;
                             firstSymbol = true; //When display is 0 and pressing 0 again - do nothing.
                             currentString = document.getElementById("slt").innerHTML = btnClicked; //! added after adding + operatioin to diplay
                             //second operand if it starts with 0!
                             console.log("zeroFirst is: ", zeroFirst);
                             console.log('Line 115 - currentString is: ', currentString);
                             console.log("currentString length is: ", currentString.length);
-                            console.log("curent character at 0: ", currentString.charAt(0));
-                            console.log("firstSymbol is: ", firstSymbol);
-                            console.log("decPoint is:", decPoint);
+                            console.log("Right Operand is: ", rightOperand);
+                            console.log("Left Operand is: ", leftOperand);
                             break;
                         }
                         else {  //When empty or only 1 digit and it is 0 and other than 0 is pressed
@@ -135,9 +170,8 @@ function btnPressed() {
                             firstSymbol = true;
                             console.log('Line 115 - currentString is: ', currentString);
                             console.log("currentString length is: ", currentString.length);
-                            console.log("curent character at 0: ", currentString.charAt(0));
-                            console.log("firstSymbol is: ", firstSymbol);
-                            console.log("decPoint is:", decPoint);
+                            console.log("Right Operand is: ", rightOperand);
+                            console.log("Left Operand is: ", leftOperand);
                             break;
                         }
                     }
@@ -148,46 +182,45 @@ function btnPressed() {
                                 firstSymbol = true;
                                 zeroFirst = 0;
                                 console.log("currentString length is: ", currentString.length);
-                                console.log("curent character at 0: ", currentString.charAt(0));
                                 console.log('Line 126 - currentString is: ', currentString);
-                                console.log("firstSymbol is: ", firstSymbol);
-                                console.log("decPoint is:", decPoint);
+                                console.log("Right Operand is: ", rightOperand);
+                                console.log("Left Operand is: ", leftOperand);
                                 break;
                             }
                             else {
                                 currentString = document.getElementById("slt").innerHTML = currentString + btnClicked;
                                 firstSymbol = true;
                                 zeroFirst = 0;
-                                console.log('Line 126 - currentString is: ', currentString);
-                                console.log("currentString length is: ", currentString.length);
-                                console.log("curent character at 0: ", currentString.charAt(0));
-                                console.log("firstSymbol is: ", firstSymbol);
-                                console.log("decPoint is:", decPoint);
+                                console.log("Code comes here: ")
+                                console.log('Line 126 - currentString is e 6: ', currentString);
+                                console.log("Result is: ", result);
+                                console.log("operation is: ", operation);
+                                console.log("Right Operand is: ", rightOperand);
+                                console.log("Left Operand is: ", leftOperand);
                                 break;
                             }
                         }
                         else {
-                            if ((btnClicked === '.') && (currentString.length < 12)) {
+                            if ((btnClicked == '.') && (currentString.length < 12)) {
                                 document.getElementById("slt").innerHTML = currentString;
                                 console.log("currentString length is: ", currentString.length);
                                 console.log('Line 122 - currentString is: ', currentString);
-                                console.log("firstSymbol is: ", firstSymbol);
-                                console.log("decPoint is:", decPoint);
+                                console.log("Right Operand is: ", rightOperand);
+                                console.log("Left Operand is: ", leftOperand);
                                 break;
                             }
                             else if (currentString.length < 12) {
                                 currentString = document.getElementById("slt").innerHTML = currentString + btnClicked;
                                 console.log('Line 126 - currentString is: ', currentString);
                                 console.log("currentString length is: ", currentString.length);
-                                console.log("curent character at 0: ", currentString.charAt(0));
-                                console.log("firstSymbol is: ", firstSymbol);
-                                console.log("decPoint is:", decPoint);
+                                console.log("Right Operand is: ", rightOperand);
+                                console.log("Left Operand is: ", leftOperand);
                                 break;
                             }
                             console.log("currentString length is: ", currentString.length);
                             console.log('Line 122 - currentString is: ', currentString);
-                            console.log("firstSymbol is: ", firstSymbol);
-                            console.log("decPoint is:", decPoint);
+                            console.log("Right Operand is: ", rightOperand);
+                            console.log("Left Operand is: ", leftOperand);
                             break;
                         }
                     }
@@ -195,14 +228,10 @@ function btnPressed() {
                     currentString = '';
                     document.getElementById("slt").innerHTML = currentString + 0;
                     document.getElementById("flt").innerHTML = '';
-                    firstSymbol = false;
-                    decPoint = false;
-                    zeroFirst = 0;
-                    leftOperand = 0;
-                    rightOperand = 0;
-                    operation = '';
+                    resetVar();
                     break;
                 case 'BKSP':
+                    clearScreen();
                     var l = currentString.length;
                     console.log('Line 126 - currentString is: ', currentString);
                     console.log("currentString length is: ", currentString.length);
@@ -266,6 +295,7 @@ function btnPressed() {
                         break;
                     }
                 case 'NEG':
+                    clearScreen();
                     if (Number(currentString) > 0) {
                         currentString = document.getElementById("slt").innerHTML = '-' + currentString;
                         console.log('Line 126 - currentString is: ', currentString);
@@ -292,9 +322,14 @@ function btnPressed() {
                         break;
                     }
                 case 'ADD':
-                    if (leftOperand == '') { //If this is the first press of +
+                    clearScreen();
+                    if (leftOperand == '' && lOpNotEqls0) { //If this is the first press of +
                         upperString = document.getElementById("flt").innerHTML = currentString + ' +';
                         leftOperand = Number(currentString);
+                        console.log("+ is pressed for a first time!");
+                        console.log('Line 300 - currentString is: ', currentString);
+                        console.log("Right Operand is: ", rightOperand);
+                        console.log("Left Operand is: ", leftOperand);
                         operation = 'ADD';
                         currentString = '';
                         firstSymbol = false;
@@ -302,28 +337,51 @@ function btnPressed() {
                         zeroFirst = 0;
                         break;
                     }
-                    else if ((leftOperand != '') && (rightOperand == '')) { //When there is already left operand
+                    else if ((leftOperand !== '') && (rightOperand == '')) { //When there is already left operand
                         rightOperand = Number(currentString);
-                        result = operate(operation, leftOperand, rightOperand);
-                        operation = 'ADD';
-                        upperString = document.getElementById("flt").innerHTML = result + ' +';
-                        leftOperand = result;
-                        if (result.toString().length > 12) {
-                            result = result.toExponential();
-                            result = precise(result.toString());
+                        if (rightOperand === 0 && operation == 'DIV') {
+                            console.log('Line 313 - currentString is: ', currentString);
+                            console.log("Right Operand is: ", rightOperand);
+                            console.log("Left Operand is: ", leftOperand);
+                            upperString = document.getElementById("flt").innerHTML = "You're breaking my heart. Just don't!";
+                            document.getElementById("slt").innerHTML = "It is Undefined!";
+                            break;
                         }
-                        document.getElementById("slt").innerHTML = result;
-                        rightOperand = '';
-                        currentString = '';
-                        firstSymbol = false;
-                        decPoint = false;
-                        zeroFirst = 0;
-                        break;
+                        else {
+                            result = operate(operation, leftOperand, rightOperand);
+                            operation = 'ADD';
+                            upperString = document.getElementById("flt").innerHTML = result + ' +';
+                            leftOperand = result;
+                            console.log("Left Operand is: ", leftOperand);
+                            console.log("Right Operand is 0: ", rightOperand);
+                            console.log('Line 126 - currentString is: ', currentString);
+                            console.log("currentString length is: ", currentString.length);
+                            console.log("Result is: ", result);
+                            if (result.toString().length > 12) {
+                                result = result.toExponential();
+                                result = precise(result.toString());
+                                console.log('Line 126 - currentString is: ', currentString);
+                                console.log("currentString length is: ", currentString.length);
+                                console.log("Result is: ", result);
+                            }
+                            document.getElementById("slt").innerHTML = result;
+                            rightOperand = '';
+                            currentString = '';
+                            firstSymbol = false;
+                            decPoint = false;
+                            zeroFirst = 0;
+                            break;
+                        }
                     }
                 case 'SUBS':
-                    if (leftOperand == '') { //If this is the first press of +
+                    clearScreen();
+                    if (leftOperand == '' && lOpNotEqls0) { //If this is the first press of -
+                        console.log("lOpNotEqls0 e ", lOpNotEqls0);
                         upperString = document.getElementById("flt").innerHTML = currentString + ' -';
                         leftOperand = Number(currentString);
+                        console.log("- is pressed for a first time!");
+                        console.log('Line 351 - currentString is: ', currentString);
+                        console.log("Left Operand is: ", leftOperand);
                         operation = 'SUBS';
                         currentString = '';
                         firstSymbol = false;
@@ -331,26 +389,140 @@ function btnPressed() {
                         zeroFirst = 0;
                         break;
                     }
-                    else if ((leftOperand != '') && (rightOperand == '')) { //When there is already left operand
+                    else if ((leftOperand !== '') && (rightOperand == '')) { //When there is already left operand
                         rightOperand = Number(currentString);
-                        result = operate(operation, leftOperand, rightOperand);
-                        operation = 'SUBS';
-                        upperString = document.getElementById("flt").innerHTML = result + ' -';
-                        leftOperand = result;
-                        if (result.toString().length > 12) {
-                            result = result.toExponential();
-                            result = precise(result.toString());
+                        if (rightOperand === 0 && operation == 'DIV') {
+                            console.log('Line 358 - currentString is: ', currentString);
+                            console.log("Right Operand is 0: ", rightOperand);
+                            console.log("Left Operand is: ", leftOperand);
+                            console.log("Result is: ", result);
+                            console.log("Operation is: ", operation);
+                            upperString = document.getElementById("flt").innerHTML = "You're breaking my heart. Just don't!";
+                            document.getElementById("slt").innerHTML = "It is Undefined!";
+                            break;
                         }
-                        document.getElementById("slt").innerHTML = result;
-                        rightOperand = '';
+                        else {
+                            console.log("I am here line 375");
+                            result = operate(operation, leftOperand, rightOperand);
+                            operation = 'SUBS';
+                            upperString = document.getElementById("flt").innerHTML = result + ' -';
+                            leftOperand = result;
+                            console.log('Line 375 - currentString is: ', currentString);
+                            console.log("Right Operand is 0: ", rightOperand);
+                            console.log("Left Operand is: ", leftOperand);
+                            console.log("Result is: ", result);
+                            console.log("Operation is: ", operation);
+                            if (result.toString().length > 12) {
+                                result = result.toExponential();
+                                result = precise(result.toString());
+                            }
+                            document.getElementById("slt").innerHTML = result;
+                            rightOperand = '';
+                            currentString = '';
+                            firstSymbol = false;
+                            decPoint = false;
+                            zeroFirst = 0;
+                            break;
+                        }
+                    }
+                case 'MLTP':
+                    clearScreen();
+                    if (leftOperand == '' && lOpNotEqls0) { //If this is the first press of *
+                        upperString = document.getElementById("flt").innerHTML = currentString + ' *';
+                        leftOperand = Number(currentString);
+                        operation = 'MLTP';
                         currentString = '';
                         firstSymbol = false;
                         decPoint = false;
                         zeroFirst = 0;
                         break;
                     }
+                    else if ((leftOperand !== '') && (rightOperand == '')) { //When there is already left operand
+                        rightOperand = Number(currentString);
+                        if (rightOperand === 0 && operation == 'DIV') {
+                            upperString = document.getElementById("flt").innerHTML = "You're breaking my heart. Just don't!";
+                            document.getElementById("slt").innerHTML = "It is Undefined!";
+                            break;
+                        }
+                        else {
+                            result = operate(operation, leftOperand, rightOperand);
+                            operation = 'MLTP';
+                            upperString = document.getElementById("flt").innerHTML = result + ' *';
+                            leftOperand = result;
+                            console.log('Line 126 - currentString is: ', currentString);
+                            console.log("currentString length is: ", currentString.length);
+                            console.log("Result is: ", result);
+                            if (result.toString().length > 12) {
+                                result = result.toExponential();
+                                result = precise(result.toString());
+                                console.log('Line 126 - currentString is: ', currentString);
+                                console.log("currentString length is: ", currentString.length);
+                                console.log("Result is: ", result);
+                            }
+                            document.getElementById("slt").innerHTML = result;
+                            rightOperand = '';
+                            currentString = '';
+                            firstSymbol = false;
+                            decPoint = false;
+                            zeroFirst = 0;
+                            break;
+                        }
+                    }
+                case 'DIV':
+                    clearScreen();
+                    if (leftOperand == '' && lOpNotEqls0) { //If this is the first press of /
+                        upperString = document.getElementById("flt").innerHTML = currentString + ' /';
+                        leftOperand = Number(currentString);
+                        if(leftOperand == 0) {
+                            lOpNotEqls0 = false;
+                        }
+                        console.log("Left Operand is: ", leftOperand);
+                        console.log("Right Operand is: ", rightOperand);
+                        console.log('Line 483 - currentString is: ', currentString);
+                        operation = 'DIV';
+                        currentString = '';
+                        firstSymbol = false;
+                        decPoint = false;
+                        zeroFirst = 0;
+                        break;
+                    }
+                    else if ((leftOperand !== '') && (rightOperand == '')) { //When there is already left operand
+                        rightOperand = Number(currentString);
+                        if (rightOperand === 0 && operation == 'DIV') {
+                            console.log("Right Operand is 0: ", rightOperand);
+                            console.log('Line 126 - currentString is: ', currentString);
+                            upperString = document.getElementById("flt").innerHTML = "You're breaking my heart. Just don't!";
+                            document.getElementById("slt").innerHTML = "It is Undefined!";
+                            break;
+                        }
+                        else {
+                            result = operate(operation, leftOperand, rightOperand);
+                            operation = 'DIV';
+                            upperString = document.getElementById("flt").innerHTML = result + ' /';
+                            leftOperand = result;
+                            console.log('Line 126 - currentString is: ', currentString);
+                            console.log("currentString length is: ", currentString.length);
+                            console.log("Result is: ", result);
+                            if (result.toString().length > 12) {
+                                result = result.toExponential();
+                                result = precise(result.toString());
+                                console.log('Line 126 - currentString is: ', currentString);
+                                console.log("currentString length is: ", currentString.length);
+                                console.log("Result is: ", result);
+                            }
+                            document.getElementById("slt").innerHTML = result;
+                            rightOperand = '';
+                            currentString = '';
+                            firstSymbol = false;
+                            decPoint = false;
+                            zeroFirst = 0;
+                            break;
+                        }
+                    }
+                case 'EXP':
+                    clearScreen();
                 case 'EQL':
-
+                    clearScreen();
             }
             return (btnClicked);
         })
