@@ -8,9 +8,31 @@ body {
     background-image: url("img/1541162.jpg");
 }
 
+h5 {
+    text-align: center;
+    margin-top: 5rem;
+    color: rgb(168, 92, 5);
+}
+
+a {
+    text-decoration: none;
+    color: rgb(92, 63, 6);
+}
+
+a:hover {
+    color: rgb(182, 50, 50);
+}
+
+#page-title {
+    margin: 2rem auto;
+    text-align: center;
+    font-size: 3rem;
+    color: rgb(252, 248, 8);
+}
+
 #container {
     width: 23rem;
-    padding-top: 6rem;
+    padding-top: 5rem;
     margin: 0 auto;
 }
 

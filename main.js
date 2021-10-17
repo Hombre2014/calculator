@@ -20,7 +20,7 @@ function resetVar() {
     leftOperand = '';
     rightOperand = '';
     operation = '';
-    result = ''; //Changed to '' instead of 0!
+    result = '';
     zeroFirst = 0;
 }
 
@@ -172,10 +172,6 @@ function btnPressed() {
                         if (currentString.length < 12 && (decPoint === false)) {
                             if ((currentString.charAt(0) == 0) && (currentString.length == 1)) {
                                 currentString = document.getElementById("slt").innerHTML = btnClicked;
-                                console.log("leftOperand: ", leftOperand);
-                                console.log("rightOperand: ", rightOperand);
-                                console.log("result: ", result);
-                                console.log("currentString: ", currentString);
                                 firstSymbol = true;
                                 zeroFirst = 0;
                                 break;
@@ -250,16 +246,12 @@ function btnPressed() {
                         break;
                     }
                 case 'NEG':
-                    if (upperString.endsWith('=') || result !== '') {
-                        if (result > 0) {
-                            currentString = document.getElementById("slt").innerHTML = '-' + result; // Check it out!
-                            upperString = document.getElementById("flt").innerHTML = '-' + result;
-                            leftOperand = '-' + result;
+                    if (upperString.endsWith('=') && result !== '') { //There was completed operation and EQL was hit!
+                        if (leftOperand > 0) {
+                            currentString = document.getElementById("slt").innerHTML = '-' + leftOperand;
+                            upperString = document.getElementById("flt").innerHTML = currentString;
+                            leftOperand = result;
                             result = Number(leftOperand);
-                            console.log("leftOperand: ", leftOperand);
-                            console.log("rightOperand: ", rightOperand);
-                            console.log("result: ", result);
-                            console.log("currentString: ", currentString);
                             currentString = '';
                             firstSymbol = true;
                             lOpNotEqls0 = true;
@@ -269,15 +261,11 @@ function btnPressed() {
                             zeroFirst = 0;
                             break;
                         }
-                        else if (result < 0) {
-                            currentString = document.getElementById("slt").innerHTML = Math.abs(currentString);
+                        else if (leftOperand < 0) {
+                            currentString = document.getElementById("slt").innerHTML = Math.abs(leftOperand);
                             upperString = document.getElementById("flt").innerHTML = currentString;
                             leftOperand = currentString;
                             result = Number(leftOperand);
-                            console.log("leftOperand: ", leftOperand);
-                            console.log("rightOperand: ", rightOperand);
-                            console.log("result: ", result);
-                            console.log("currentString: ", currentString);
                             currentString = '';
                             firstSymbol = true;
                             lOpNotEqls0 = true;
@@ -299,12 +287,43 @@ function btnPressed() {
                             break;
                         }
                     }
-                    else if (Number(currentString) > 0 && (result === '')) { //remove from condition && operation !== ''
+                    if (result !== '') { //There was a result from operation, but no EQL pressed
+                        if (result > 0) {
+                            currentString = document.getElementById("slt").innerHTML = '-' + result;
+                            leftOperand = result;
+                            result = Number(leftOperand);
+                            firstSymbol = true;
+                            lOpNotEqls0 = true;
+                            decPoint = false;
+                            rightOperand = '';
+                            zeroFirst = 0;
+                            break;
+                        }
+                        else if (result < 0) {
+                            currentString = document.getElementById("slt").innerHTML = Math.abs(result);
+                            leftOperand = currentString;
+                            result = Number(leftOperand);
+                            firstSymbol = true;
+                            lOpNotEqls0 = true;
+                            decPoint = false;
+                            rightOperand = '';
+                            zeroFirst = 0;
+                            break;
+                        }
+                        else {
+                            document.getElementById("slt").innerHTML = '0';
+                            leftOperand = currentString;
+                            firstSymbol = true;
+                            lOpNotEqls0 = false;
+                            decPoint = false;
+                            rightOperand = '';
+                            operation = '';
+                            zeroFirst = 1;
+                            break;
+                        }
+                    }
+                    else if (Number(currentString) > 0 && (result === '')) { //There is no operation and result yet
                         currentString = document.getElementById("slt").innerHTML = '-' + currentString;
-                        console.log("leftOperand: ", leftOperand);
-                        console.log("rightOperand: ", rightOperand);
-                        console.log("result: ", result);
-                        console.log("currentString: ", currentString);
                         firstSymbol = true;
                         lOpNotEqls0 = true;
                         decPoint = false;
@@ -312,13 +331,9 @@ function btnPressed() {
                         zeroFirst = 0;
                         break;
                     }
-                    else if (Number(currentString) < 0 && (result === '')) { //remove from condition && operation !== ''
+                    else if (Number(currentString) < 0 && (result === '')) {
                         currentString = currentString.substr(1, currentString.length - 1);
                         currentString = document.getElementById("slt").innerHTML = currentString;
-                        console.log("leftOperand: ", leftOperand);
-                        console.log("rightOperand: ", rightOperand);
-                        console.log("result: ", result);
-                        console.log("currentString: ", currentString);
                         firstSymbol = true;
                         lOpNotEqls0 = true;
                         decPoint = false;
@@ -361,7 +376,7 @@ function btnPressed() {
                         }
                         else {
                             leftOperand = Number(leftOperand);
-                            
+
                             result = operate(operation, leftOperand, rightOperand);
                             operation = 'ADD';
                             upperString = document.getElementById("flt").innerHTML = result + ' +';
@@ -383,10 +398,6 @@ function btnPressed() {
                     if (leftOperand === '' && lOpNotEqls0) { //If this is the first press of -
                         upperString = document.getElementById("flt").innerHTML = currentString + ' -';
                         leftOperand = Number(currentString);
-                        console.log("leftOperand: ", leftOperand);
-                        console.log("rightOperand: ", rightOperand);
-                        console.log("result: ", result);
-                        console.log("currentString: ", currentString);
                         operation = 'SUBS';
                         currentString = '';
                         firstSymbol = false;
@@ -398,10 +409,6 @@ function btnPressed() {
                         if (currentString === '') {
                             upperString = document.getElementById("flt").innerHTML = result + ' -';
                             operation = 'SUBS';
-                            console.log("leftOperand: ", leftOperand);
-                            console.log("rightOperand: ", rightOperand);
-                            console.log("result: ", result);
-                            console.log("currentString: ", currentString);
                             break;
                         }
                         rightOperand = Number(currentString);
@@ -411,15 +418,10 @@ function btnPressed() {
                         }
                         else {
                             leftOperand = Number(leftOperand);
-                            
                             result = operate(operation, leftOperand, rightOperand);
                             operation = 'SUBS';
                             upperString = document.getElementById("flt").innerHTML = result + ' -';
                             leftOperand = result; //Check it out if needs Math.round!
-                            console.log("leftOperand: ", leftOperand);
-                            console.log("rightOperand: ", rightOperand);
-                            console.log("result: ", result);
-                            console.log("currentString: ", currentString);
                             if (result.toString().length > 12) {
                                 result = result.toExponential();
                                 result = precise(result.toString());
@@ -457,7 +459,6 @@ function btnPressed() {
                             break;
                         }
                         else {
-                            rightOperand = Number(currentString);
                             result = operate(operation, leftOperand, rightOperand);
                             operation = 'MLTP';
                             upperString = document.getElementById("flt").innerHTML = result + ' *';
